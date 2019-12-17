@@ -57,3 +57,22 @@ comment: |-
 SekWdaOMyDEGdL1m9fmKN_oC8_jtXDf9G8-kizooxQmp7KtmgxENqEtvJ7RQzablUp18imdJlf8Ig2axFMPsDQ
 ----- END CREV PROOF -----
 
+----- BEGIN CREV PROOF -----
+kind: trust
+version: -1
+date: "2019-12-16T20:23:31.172606100-05:00"
+from:
+  id-type: crev
+  id: e13vqC78LDCc-IiVPs-XkOHWd1j6PJUcYrugasS77hQ
+  url: "https://github.com/cad97/crev-proofs"
+ids:
+  - id-type: crev
+    id: aD4K0g6AcSKUDp3VPF7u4hM94zEkqjWeRQwmabLBcV0
+    url: "https://github.com/Mark-Simulacrum/crev-proofs"
+trust: medium
+comment: |-
+  Mark Simulacrum is a Rust core team member and release team lead.
+----- SIGN CREV PROOF -----
+C58SYmAmF7npzvHcshWSpEFhN6oGLhf6mB8G2Stawx0InjIzM2UKMSLUQFCA5xEQbbhzUNXNjLQoypYoBZmEAQ
+----- END CREV PROOF -----
+
