@@ -63,3 +63,53 @@ comment: |-
 dkA87p50Ot2fOC1YTeplVFPPYUfDOEVMltr3arv5Qxy4IwAAegR9I9fxeZR-kMUm6Fb3yxXVXBY8YEb73AOrCA
 ----- END CREV PROOF -----
 
+----- BEGIN CREV PROOF -----
+kind: package review
+version: -1
+date: "2020-02-10T14:36:08.855582400-05:00"
+from:
+  id-type: crev
+  id: e13vqC78LDCc-IiVPs-XkOHWd1j6PJUcYrugasS77hQ
+  url: "https://github.com/cad97/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: slice-dst
+  version: 1.0.0
+  revision: b9e6136d9e887fcc5f913a4355c555a9484488f0
+  digest: CD-r_B0Ysk5oO3zMofnVZMMsnU2R06yieSBLiiFX_dc
+review:
+  thoroughness: high
+  understanding: high
+  rating: positive
+alternatives:
+  - source: "https://crates.io"
+    name: triomphe
+comment: |-
+  I am the author of this crate. As such, I obviously trust it and believe it is useful.
+  So this review will instead point at the trickiest parts and try to rationalize them.
+  
+  First and foremost, a caution: `YOLO_RC_HEAP_LAYOUT_KNOWN` is unsound, don't use it.
+  It isn't public API nor documented API, but it does create "working" code that only
+  happens to work for the current compiler and relies on too many implementation details.
+  
+  This crate provides a completely safe API through SliceWithHeader.
+  Prefer using it to the unsafe APIs that power it.
+  
+  It should be noted that this crate's unsafety is purely on slice dst construction.
+  Once the slice dst has been manually allocated into a `Box`, everything becomes safe again.
+  Rust actually supports these trailing-slice DSTs perfectly well,
+  it is only construction that is unsafe.
+  
+  Triomphe also provides a HeaderSlice<HeaderWithLength<Header>, [Item]> equivalent to slice-dst's
+  SliceWithHeader<Header, Item>. Slice-dst's is usable with std smart pointers, wheras triomphe's
+  is only usable with triomphe::Arc (and variants). Triomphe, however, is more battle tested.
+  
+  Smoke tests are run under miri, but the crate could potentially do with some more examples
+  as well as some more tests to ensure that all of the functionality works as advertised.
+  
+  I've only put this review as positive rather than strong because of a lack of real-world use.
+  As of yet, the library is just of theoretical use, and has yet to be stress tested for real.
+----- SIGN CREV PROOF -----
+N3s_seQbqt-WwhSs1Lb7i1rwI0bSZFmbDALEi7s2XosfipC_CWzjYhdrmawsmAq-5Y2guxgZV4BOu1sACOxyDg
+----- END CREV PROOF -----
+
