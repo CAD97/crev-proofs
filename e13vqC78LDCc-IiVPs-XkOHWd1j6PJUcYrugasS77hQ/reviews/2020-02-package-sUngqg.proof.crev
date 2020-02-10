@@ -113,3 +113,44 @@ comment: |-
 N3s_seQbqt-WwhSs1Lb7i1rwI0bSZFmbDALEi7s2XosfipC_CWzjYhdrmawsmAq-5Y2guxgZV4BOu1sACOxyDg
 ----- END CREV PROOF -----
 
+----- BEGIN CREV PROOF -----
+kind: package review
+version: -1
+date: "2020-02-10T15:15:59.281720700-05:00"
+from:
+  id-type: crev
+  id: e13vqC78LDCc-IiVPs-XkOHWd1j6PJUcYrugasS77hQ
+  url: "https://github.com/cad97/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: ptr-union
+  version: 1.0.0
+  revision: 384b1b4ce942dc94ba9f95f4d155f60346aef328
+  digest: P12T8YbXeD-oEZ-OICsBKlp_H7ME9uCNanuOaiwGb3A
+review:
+  thoroughness: high
+  understanding: high
+  rating: positive
+comment: |-
+  I am the author of this crate. As such, I obviously trust it and believe it is useful.
+  So this review will instead point at the trickiest parts and try to rationalize them.
+  
+  Don't believe cargo-geiger for this crate. The majority of the API is macro-generated,
+  and cargo-geiger misses unsafe invocations emitted by the complex macro.
+  
+  This crate makes liberal usage of unreachable_unchecked,
+  but for cases where the case is trivially actually unreachable.
+  
+  However, using this crate _will_ decrease the required unsafe for your crate,
+  as it gives you alignment-tagged pointer unions for only one line of unsafe per union type.
+  The unsafe burden you take on is to guarantee the alignment required to store the tag within.
+  
+  Smoke tests are run under miri, but the crate could potentially do with some more examples
+  as well as some more tests to ensure that all of the functionality works as advertised.
+  
+  I've only put this review as positive rather than strong because of a lack of real-world use.
+  As of yet, the library is just of theoretical use, and has yet to be stress tested for real.
+----- SIGN CREV PROOF -----
+LxEAp6citN6_FmHmS-9kO290xysRarK5lRIFfS0LQ4EGy1Sdyw_i_91KNqz1rbg3s0rpRsQDwvEHymrxqi0gDQ
+----- END CREV PROOF -----
+
