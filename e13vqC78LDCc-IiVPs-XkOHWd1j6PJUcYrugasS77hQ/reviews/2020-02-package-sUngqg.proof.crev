@@ -1,0 +1,65 @@
+----- BEGIN CREV PROOF -----
+kind: package review
+version: -1
+date: "2020-02-10T14:02:24.309530100-05:00"
+from:
+  id-type: crev
+  id: e13vqC78LDCc-IiVPs-XkOHWd1j6PJUcYrugasS77hQ
+  url: "https://github.com/cad97/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: erasable
+  version: 1.0.0
+  revision: 384b1b4ce942dc94ba9f95f4d155f60346aef328
+  digest: jR30TgCe-IjaFVCZ08o9CpFkoRJRoYaUmsEqLg-27K4
+review:
+  thoroughness: high
+  understanding: high
+  rating: positive
+comment: |-
+  I am the author of this crate. As such, I obviously trust it and believe it is useful.
+  So this review will instead point at the trickiest parts and try to rationalize them.
+  
+  ErasedPtr is a trivial typedef.
+  Erasable is an unsafe trait, but an obvious one.
+  
+  ErasablePtr is a tricky trait, as it encodes the requirements to make Thin work properly.
+  The methods functionality it provides is self-evident, but the Thin requirements are subtle.
+  Specifically, ErasablePtr requires Deref and DerefMut to "behave" to make Thin::with(_mut) sound.
+  It needs to be sound to take an erased pointer, convert it back to the real pointer temporarily,
+  dereference the real pointer, trash the temporary real pointer, and then use the resulting ref.
+  This is the requirement laid out by usage with Thin and described generally by the documentation.
+  
+  Because of the simplicity of the actual functionality, the actual implementations of ErasablePtr
+  (as well as Erasable) are almost trivially correct, just type erasing and casting the type back.
+  
+  Thin is the real scary `unsafe` involved. It relies on the guarantees promised by ErasablePtr
+  to treat an ErasedPtr as if it were the real, invariant-holding pointer.
+  The unsafe points are Thin::with, Thin::with_mut, Thin::deref, and Thin::deref_mut.
+  Thin::with is sound because of the no-shared-mutability-before-indirection requirement,
+  meaning that the created undropped temporary is a fine substitue for the real pointer.
+  Thin::with_mut adds the possiblity of mutability-before-indirection, and uses a scope guard
+  to ensure that the potentially mutated pointer is re-erased and re-stored as the thin pointer.
+  The Deref and DerefMut impls then rely on the address-independent-deref semantics to tie the
+  lifetime of the deref'd reference to the erased pointer rather than the temporary real pointer.
+  The only chance for mutability-before-indirection is in the pointer's own DerefMut impl,
+  and the use of Thin::with_mut to deref the real pointer ensures that this is properly respected.
+  The remaining impls on Thin just forward trait impls, as is done for pointers in std.
+  
+  Note, however, that Thin actually provides little/no actual benefits without an additional
+  library (slice-dst), because all erasable pointers provided by this crate are already thin.
+  
+  Smoke tests are run under miri, but the crate could potentially do with some more examples
+  as well as some more tests to ensure that all of the functionality works as advertised.
+  
+  Some completely dead code was left in, but has been patched out of the git head,
+  and a patch version will be released that removes the unneeded dead code.
+  
+  I've only put this review as positive rather than strong because of a lack of real-world use.
+  As of yet, the library is just of theoretical use, and has yet to be stress tested for real.
+  However, I feel perfectly fine recommending it for any/all use case that wants to make working
+  with type-erased pointers simpler, or uses slice-dst and wants thin pointers to those structures.
+----- SIGN CREV PROOF -----
+dkA87p50Ot2fOC1YTeplVFPPYUfDOEVMltr3arv5Qxy4IwAAegR9I9fxeZR-kMUm6Fb3yxXVXBY8YEb73AOrCA
+----- END CREV PROOF -----
+
