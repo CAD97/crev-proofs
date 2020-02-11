@@ -202,3 +202,39 @@ comment: |-
 HT9g2SIeFl7cXfHo_7dKOX78V-tmSI8n0Ex2js0pdWy5XAp7u5DF-QMO0UBCD3_nMlMnppVtkZjVTx08CrUkCQ
 ----- END CREV PROOF -----
 
+----- BEGIN CREV PROOF -----
+kind: package review
+version: -1
+date: "2020-02-10T20:22:18.930047800-05:00"
+from:
+  id-type: crev
+  id: e13vqC78LDCc-IiVPs-XkOHWd1j6PJUcYrugasS77hQ
+  url: "https://github.com/cad97/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: rc-box
+  version: 1.0.0
+  revision: 384b1b4ce942dc94ba9f95f4d155f60346aef328
+  digest: LDrZvRg6t5nHSA02xVNl4ZRzdOO30IwYIC432_k16C4
+review:
+  thoroughness: high
+  understanding: high
+  rating: positive
+comment: |-
+  I am the author of this crate. As such, I obviously trust it and believe it is useful.
+  So this review will instead point at the trickiest parts and try to rationalize them.
+  
+  Do not believe cargo-geiger for this crate. The implementation is primarily macro-generated,
+  and cargo-geiger does not see into unsafe generated in macros.
+  
+  That said, this crate is fairly simple and self-evident.
+  
+  Smoke tests are run under miri, but the crate could potentially do with some more examples
+  as well as some more tests to ensure that all of the functionality works as advertised.
+  
+  I've only put this review as positive rather than strong because of a lack of real-world use.
+  As of yet, the library is just of theoretical use, and has yet to be stress tested for real.
+----- SIGN CREV PROOF -----
+cegW3d3WNVvb2IC4uUHLZCxVrgm1Oh7FKXz5pcfJxjdQLJx6al1Pn5kCbBEFr3vUZRNzDxQFtjP4Ez985Gr1Bw
+----- END CREV PROOF -----
+
