@@ -154,3 +154,51 @@ comment: |-
 LxEAp6citN6_FmHmS-9kO290xysRarK5lRIFfS0LQ4EGy1Sdyw_i_91KNqz1rbg3s0rpRsQDwvEHymrxqi0gDQ
 ----- END CREV PROOF -----
 
+----- BEGIN CREV PROOF -----
+kind: package review
+version: -1
+date: "2020-02-10T15:34:55.006811200-05:00"
+from:
+  id-type: crev
+  id: e13vqC78LDCc-IiVPs-XkOHWd1j6PJUcYrugasS77hQ
+  url: "https://github.com/cad97/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: rc-borrow
+  version: 1.0.0
+  revision: 384b1b4ce942dc94ba9f95f4d155f60346aef328
+  digest: 2xkP7ivXo-ag8hMqyIpW1M4fJQiyRKJNg_0-roSophU
+review:
+  thoroughness: high
+  understanding: high
+  rating: positive
+alternatives:
+  - source: "https://crates.io"
+    name: triomphe
+comment: |-
+  I am the author of this crate. As such, I obviously trust it and believe it is useful.
+  So this review will instead point at the trickiest parts and try to rationalize them.
+  
+  Do not believe cargo-geiger for this crate. The implementation is primarily macro-generated,
+  and cargo-geiger does not see into unsafe generated in macros.
+  
+  That said, this crate is fairly simple and self-evident.
+  The main tricky bit is around pointer provenance when reconstructing the (A)Rc.
+  See <https://internals.rust-lang.org/t/_/11463/11> for some context.
+  The standard library currently does this wrong, even!
+  Getting the "raw" reference as `&**arc` gives shared immutable provenance,
+  and (A)Rc requires "raw mutable" provenance, because of get_mut.
+  
+  If you're reading this and you _ever_ upgrade &T to (A)Rc<T>, replace it with this crate!
+  The crate uses autocfg to automatically probe for the "fix" methods of std providing a
+  (A)Rc::as_raw, so will automatically upgrade to the purely sound version when it's available.
+  
+  Smoke tests are run under miri, but the crate could potentially do with some more examples
+  as well as some more tests to ensure that all of the functionality works as advertised.
+  
+  I've only put this review as positive rather than strong because of a lack of real-world use.
+  As of yet, the library is just of theoretical use, and has yet to be stress tested for real.
+----- SIGN CREV PROOF -----
+HT9g2SIeFl7cXfHo_7dKOX78V-tmSI8n0Ex2js0pdWy5XAp7u5DF-QMO0UBCD3_nMlMnppVtkZjVTx08CrUkCQ
+----- END CREV PROOF -----
+
